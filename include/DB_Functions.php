@@ -103,7 +103,7 @@ class DB_Functions
     public function SearchContact($query)
     {
         $contacts = array();
-        $sql = "SELECT * FROM contacts WHERE fname LIKE :keyword OR lname LIKE :keyword OR phone_work LIKE :keyword OR phone_home LIKE :keyword OR phone_mobile LIKE :keyword;";
+        $sql = "SELECT * FROM contacts WHERE fname LIKE :keyword OR lname LIKE :keyword OR phone_work LIKE :keyword OR phone_home LIKE :keyword OR phone_mobile LIKE :keyword OR email LIKE :keyword;";
         $stmt = $this->con->prepare($sql);
         $stmt->bindValue(':keyword', '%' . $query . '%');
         $stmt->execute();
