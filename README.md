@@ -1,40 +1,63 @@
 PHP-Login
 =========
 
-A simple, secure login and signup system with PHP, MySQL and jQuery (AJAX) using Bootstrap 3 for the form design as well as PHP-Mailer for user account verification and confirmation
+A simple, secure system with PHP, MySQL and jQuery (AJAX) using Bootstrap 3 for the form design a phone book.
 
-<img src="https://raw.githubusercontent.com/fethica/PHP-Login/master/login/images/screenshot.png" alt="Login Page Screenshot" />
 
 ## Installation
-### Clone the Repository (recursively to include PHP-Mailer submodule)
-    $ git clone --recursive https://github.com/fethica/PHP-Login.git
+### Clone the Repository
+    $ git clone https://github.com/hatamiarash7/PhoneBook
 
 ### Creating the MySQL Database
 
-Create database "login" and create tables "members" and "loginAttempts" :
+Create database "login" and create tables "members" and "loginAttempts" and "contacts" :
 
 ```sql
+CREATE TABLE IF NOT EXISTS contacts (
+  id           INT(11)      NOT NULL             AUTO_INCREMENT,
+  unique_id    VARCHAR(100) NOT NULL PRIMARY KEY,
+  fname        VARCHAR(100) NOT NULL,
+  lname        VARCHAR(100) NOT NULL,
+  phone_home   VARCHAR(100) NULL,
+  phone_work   VARCHAR(100) NULL,
+  phone_mobile VARCHAR(100) NULL,
+  job          VARCHAR(100) NULL,
+  email        VARCHAR(100) NULL,
+  address_work TEXT         NULL,
+  address_home TEXT         NULL,
+  birthday     DATE         NULL,
+  UNIQUE KEY unique_id (unique_id),
+  UNIQUE KEY email (email),
+  UNIQUE KEY id (id)
+)
+  CHARACTER SET utf8
+  COLLATE utf8_unicode_ci;
+
 CREATE TABLE `members` (
-  `id` char(23) NOT NULL,
-  `username` varchar(65) NOT NULL DEFAULT '',
-  `password` varchar(65) NOT NULL DEFAULT '',
-  `email` varchar(65) NOT NULL,
-  `verified` tinyint(1) NOT NULL DEFAULT '0',
-  `mod_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `id`            CHAR(23)    NOT NULL,
+  `username`      VARCHAR(65) NOT NULL DEFAULT '',
+  `password`      VARCHAR(65) NOT NULL DEFAULT '',
+  `email`         VARCHAR(65) NOT NULL,
+  `verified`      TINYINT(1)  NOT NULL DEFAULT '0',
+  `mod_timestamp` TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 CREATE TABLE `loginAttempts` (
-  `IP` varchar(20) NOT NULL,
-  `Attempts` int(11) NOT NULL,
-  `LastLogin` datetime NOT NULL,
-  `Username` varchar(65) DEFAULT NULL,
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `IP`        VARCHAR(20) NOT NULL,
+  `Attempts`  INT(11)     NOT NULL,
+  `LastLogin` DATETIME    NOT NULL,
+  `Username`  VARCHAR(65)          DEFAULT NULL,
+  `ID`        INT(11)     NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 ```
 ### Setup the `login/dbconf.php` file
 ```php
